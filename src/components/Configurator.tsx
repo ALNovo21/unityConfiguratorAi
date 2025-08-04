@@ -1,25 +1,43 @@
 import { useState } from 'react';
+
 import { gameDefinitions } from '../data/games';
 import Dashboard from './Dashboard';
+
 
 export interface SetupConfig {
   setupType: 'Unity Arena' | '8 pod island';
   locations: { name: string; count: number }[];
+
   games: Record<string, { enabled: boolean; environment?: string }>;
+  games: Record<string, { enabled: boolean }>;
+
   jackpot: boolean;
   wideArea: boolean;
 }
 
+
 const initialGames = Object.fromEntries(
   gameDefinitions.map((g) => [g.key, { enabled: false }])
 );
+const gameNames = [
+  'roulette',
+  'baccarat',
+  'blackjack',
+  'sic-bo',
+  'poker',
+  'slot games'
+];
+
 
 export default function Configurator() {
   const [step, setStep] = useState(0);
   const [config, setConfig] = useState<SetupConfig>({
     setupType: 'Unity Arena',
     locations: [{ name: '', count: 1 }],
+
     games: initialGames,
+    games: Object.fromEntries(gameNames.map((n) => [n, { enabled: false }])),
+
     jackpot: false,
     wideArea: false
   });
@@ -96,22 +114,39 @@ export default function Configurator() {
       {step === 2 && (
         <div>
           <h2>Games</h2>
+
           {gameDefinitions.map((g) => (
             <label key={g.key} style={{ display: 'block' }}>
               <input
                 type="checkbox"
                 checked={config.games[g.key].enabled}
+
+          {gameNames.map((name) => (
+            <label key={name} style={{ display: 'block' }}>
+              <input
+                type="checkbox"
+                checked={config.games[name].enabled}
+
                 onChange={(e) =>
                   setConfig((c) => ({
                     ...c,
                     games: {
                       ...c.games,
+
                       [g.key]: { ...c.games[g.key], enabled: e.target.checked }
                     }
                   }))
                 }
               />
               {g.name}
+
+                      [name]: { enabled: e.target.checked }
+                    }
+                  }))
+                }
+              />
+              {name}
+
             </label>
           ))}
           <div>
@@ -159,7 +194,15 @@ export default function Configurator() {
         </div>
       )}
       {step === 5 && (
+
         <Dashboard config={config} setConfig={setConfig} restart={() => setStep(0)} />
+
+        <div>
+          <h2>Configuration Summary</h2>
+          <pre>{JSON.stringify(config, null, 2)}</pre>
+          <button onClick={() => setStep(0)}>Start over</button>
+        </div>
+
       )}
     </div>
   );

@@ -9,7 +9,10 @@ It offers a simple stepper to collect the following information:
 4. Decide whether a jackpot is required
 5. Decide whether wide area network functionality is required
 
+
 After completing the stepper, a dashboard lists the selected games. Each game appears as a card where the environment (e.g. **Flying**, **Multi**, **Touchbet**) can be configured before viewing the final JSON summary.
+Each configuration is represented as JSON and shown after completing the stepper.
+
 
 Run scripts:
 
