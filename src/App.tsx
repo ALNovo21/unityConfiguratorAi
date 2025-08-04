@@ -8,7 +8,11 @@ export default function App() {
     <div>
       {!started ? (
         <div>
+
+          <h1>Novo Unity Configurator Lite</h1>
+
           <h1>Novo Unity Pro configurator</h1>
+
           <button onClick={() => setStarted(true)}>
             Let's configure a unity together
           </button>
